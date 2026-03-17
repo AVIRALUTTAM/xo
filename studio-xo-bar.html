@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio XO Bar — Kanpur</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #8c6e2f;
+    --black: #050505;
+    --dark: #0d0d0d;
+    --dark2: #141414;
+    --dark3: #1c1c1c;
+    --text: #e8e0d0;
+    --muted: #9a8f7e;
+    --red: #8b1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 2px; }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    transition: all 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(5,5,5,0.97);
+    padding: 14px 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px;
+    background: var(--gold); transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 10px 22px; text-decoration: none;
+    transition: all 0.3s; font-weight: 600;
+    border: 1px solid var(--gold);
+  }
+  .nav-cta:hover { background: transparent; color: var(--gold); }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(139,26,26,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(201,168,76,0.05) 0%, transparent 50%),
+      #050505;
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--gold) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-particles {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute; width: 2px; height: 2px;
+    background: var(--gold); border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-20px) translateX(20px); opacity: 0; }
+  }
+  .hero-content {
+    text-align: center; z-index: 2; position: relative;
+    animation: heroIn 1.4s ease forwards;
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 8px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.9; letter-spacing: 6px;
+    color: var(--text);
+    text-shadow: 0 0 80px rgba(201,168,76,0.3);
+  }
+  .hero-title .xo {
+    color: var(--gold);
+    -webkit-text-stroke: 0px;
+    display: inline-block;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 40px rgba(201,168,76,0.5); }
+    50% { text-shadow: 0 0 100px rgba(201,168,76,0.9), 0 0 200px rgba(201,168,76,0.3); }
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-style: italic; letter-spacing: 3px;
+    color: var(--muted); margin-top: 16px; font-weight: 300;
+  }
+  .hero-divider {
+    width: 1px; height: 80px; background: linear-gradient(to bottom, var(--gold), transparent);
+    margin: 40px auto;
+  }
+  .hero-actions { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 16px 40px; text-decoration: none;
+    font-weight: 700; border: 1px solid var(--gold);
+    transition: all 0.3s; display: inline-block;
+  }
+  .btn-primary:hover { background: transparent; color: var(--gold); letter-spacing: 5px; }
+  .btn-outline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); background: transparent;
+    padding: 16px 40px; text-decoration: none;
+    font-weight: 600; border: 1px solid rgba(201,168,76,0.4);
+    transition: all 0.3s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); letter-spacing: 5px; }
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+    animation: bounce 2s ease infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+  .scroll-line {
+    width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, var(--gold));
+  }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 100px 60px; }
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 6px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before {
+    content: ''; display: block; width: 30px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700; line-height: 1.1;
+    color: var(--text); margin-bottom: 20px;
+  }
+  .section-title em { color: var(--gold); font-style: italic; }
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem; line-height: 1.8;
+    color: var(--muted); max-width: 580px; font-weight: 400;
+  }
+  .gold-line {
+    width: 60px; height: 1px; background: var(--gold); margin: 30px 0;
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--dark);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .about-visual {
+    position: relative; height: 560px;
+  }
+  .about-frame {
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    background: var(--dark2);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .about-bg-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12rem; color: rgba(201,168,76,0.04);
+    position: absolute; white-space: nowrap; letter-spacing: 10px;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: rgba(201,168,76,0.1); position: relative; z-index: 1;
+    width: 100%;
+  }
+  .stat-box {
+    background: var(--dark2); padding: 40px 30px;
+    text-align: center;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    transition: background 0.3s;
+  }
+  .stat-box:hover { background: var(--dark3); }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem; color: var(--gold); line-height: 1;
+    display: block; margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+  }
+  .about-corner {
+    position: absolute; width: 30px; height: 30px;
+    border-color: var(--gold); border-style: solid; opacity: 0.6;
+  }
+  .about-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .about-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .about-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .about-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+  .about-features { display: flex; flex-direction: column; gap: 20px; margin-top: 30px; }
+  .feature {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px; border: 1px solid rgba(201,168,76,0.08);
+    background: rgba(201,168,76,0.02);
+    transition: all 0.3s;
+  }
+  .feature:hover { border-color: rgba(201,168,76,0.25); background: rgba(201,168,76,0.04); }
+  .feature-icon {
+    font-size: 1.4rem; line-height: 1; flex-shrink: 0; margin-top: 2px;
+  }
+  .feature-title { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
+  .feature-desc { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--muted); }
+
+  /* ─── MARQUEE ─── */
+  .marquee-strip {
+    background: var(--gold); padding: 14px 0; overflow: hidden;
+    border-top: 1px solid var(--gold-dark); border-bottom: 1px solid var(--gold-dark);
+  }
+  .marquee-track {
+    display: flex; gap: 0; animation: marquee 20s linear infinite; white-space: nowrap;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 4px; color: var(--black);
+    padding: 0 30px; display: flex; align-items: center; gap: 30px;
+  }
+  .marquee-dot { width: 5px; height: 5px; background: var(--black); border-radius: 50%; }
+
+  /* ─── MENU ─── */
+  #menu { background: var(--black); padding: 100px 60px; }
+  .menu-header { text-align: center; margin-bottom: 70px; }
+  .menu-header .section-label { justify-content: center; }
+  .menu-header .section-label::before { display: none; }
+  .menu-header .gold-line { margin: 20px auto; }
+
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0; margin-bottom: 60px;
+    flex-wrap: wrap; border: 1px solid rgba(201,168,76,0.2);
+    overflow: hidden;
+  }
+  .menu-tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+    padding: 14px 28px; background: transparent; color: var(--muted);
+    border: none; cursor: pointer; transition: all 0.3s;
+    border-right: 1px solid rgba(201,168,76,0.2);
+    font-weight: 500;
+  }
+  .menu-tab:last-child { border-right: none; }
+  .menu-tab.active { background: var(--gold); color: var(--black); font-weight: 700; }
+  .menu-tab:hover:not(.active) { background: rgba(201,168,76,0.08); color: var(--gold); }
+
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  .menu-category { margin-bottom: 60px; }
+  .menu-cat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; color: var(--gold); font-style: italic;
+    margin-bottom: 8px; padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .menu-cat-title .cat-icon { font-size: 1.2rem; }
+  .menu-cat-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--muted); margin-bottom: 24px; font-style: italic;
+  }
+  .menu-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1px; background: rgba(201,168,76,0.08); }
+  .menu-item {
+    background: var(--dark); padding: 22px 26px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 20px; transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .menu-item::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--gold); transform: scaleY(0); transition: transform 0.3s;
+    transform-origin: bottom;
+  }
+  .menu-item:hover { background: var(--dark2); }
+  .menu-item:hover::before { transform: scaleY(1); }
+  .item-info { flex: 1; }
+  .item-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 1px;
+    color: var(--text); margin-bottom: 5px; text-transform: capitalize;
+  }
+  .item-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; color: var(--muted); line-height: 1.5;
+  }
+  .item-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.55rem; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid;
+    font-weight: 600;
+  }
+  .tag-veg { color: #4caf50; border-color: rgba(76,175,80,0.4); }
+  .tag-nonveg { color: #f44336; border-color: rgba(244,67,54,0.4); }
+  .tag-new { color: var(--gold); border-color: rgba(201,168,76,0.4); }
+  .tag-recommended { color: #ff9800; border-color: rgba(255,152,0,0.4); }
+  .tag-spicy { color: #ff5722; border-color: rgba(255,87,34,0.4); }
+  .item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem; color: var(--gold); white-space: nowrap; letter-spacing: 1px;
+    min-width: 70px; text-align: right;
+  }
+  .item-price .currency { font-size: 0.9rem; margin-right: 2px; vertical-align: top; margin-top: 4px; display: inline-block; }
+
+  /* ─── EVENTS ─── */
+  #events {
+    background: var(--dark);
+    padding: 100px 60px;
+  }
+  .events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 60px; }
+  .event-card {
+    border: 1px solid rgba(201,168,76,0.15); background: var(--dark2);
+    padding: 32px; position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .event-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .event-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
+  .event-card:hover::after { opacity: 1; }
+  .event-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem; letter-spacing: 4px; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .event-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--text); margin-bottom: 12px; font-weight: 700;
+  }
+  .event-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--muted); line-height: 1.6;
+  }
+  .event-icon {
+    font-size: 2.5rem; margin-bottom: 16px; display: block;
+  }
+  .event-badge {
+    display: inline-block; margin-top: 16px;
+    font-size: 0.55rem; letter-spacing: 2px; text-transform: uppercase;
+    padding: 5px 12px; border: 1px solid rgba(201,168,76,0.4); color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ─── OFFERS ─── */
+  #offers { background: var(--black); padding: 100px 60px; }
+  .offers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-top: 60px; }
+  .offer-card {
+    background: linear-gradient(135deg, var(--dark2), var(--dark3));
+    border: 1px solid rgba(201,168,76,0.2); padding: 36px 30px;
+    text-align: center; position: relative; overflow: hidden;
+    transition: all 0.4s;
+  }
+  .offer-card::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 2px; background: var(--gold);
+  }
+  .offer-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(201,168,76,0.12); }
+  .offer-percent {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; color: var(--gold); line-height: 1;
+    display: block; margin-bottom: 4px;
+  }
+  .offer-title { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--text); font-weight: 600; margin-bottom: 12px; }
+  .offer-condition { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--muted); }
+  .offer-platform { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-dark); margin-top: 14px; display: block; }
+
+  /* ─── AMBIANCE ─── */
+  #ambiance { background: var(--dark); padding: 100px 60px; }
+  .ambiance-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto;
+    gap: 16px; margin-top: 60px;
+  }
+  .amb-card {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.1);
+    padding: 50px 40px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .amb-card:first-child { grid-column: span 2; }
+  .amb-card:nth-child(4) { grid-column: span 2; }
+  .amb-card:hover { border-color: rgba(201,168,76,0.3); }
+  .amb-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; color: rgba(201,168,76,0.06); position: absolute;
+    top: 10px; right: 20px; line-height: 1;
+  }
+  .amb-icon { font-size: 2rem; margin-bottom: 20px; }
+  .amb-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--text); margin-bottom: 12px; font-weight: 700; }
+  .amb-desc { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--muted); line-height: 1.7; }
+
+  /* ─── INFO STRIP ─── */
+  .info-strip {
+    background: var(--dark2); padding: 60px;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .info-box {
+    padding: 0 40px; text-align: center;
+    border-right: 1px solid rgba(201,168,76,0.12);
+  }
+  .info-box:last-child { border-right: none; }
+  .info-icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+  .info-title { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 8px; }
+  .info-value { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text); line-height: 1.5; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--black); padding: 100px 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+  }
+  .contact-details { display: flex; flex-direction: column; gap: 28px; margin-top: 40px; }
+  .contact-item { display: flex; gap: 20px; align-items: flex-start; }
+  .contact-icon-box {
+    width: 44px; height: 44px; border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0; background: rgba(201,168,76,0.05);
+  }
+  .contact-text { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--muted); line-height: 1.6; }
+  .contact-text strong { color: var(--text); font-family: 'Montserrat', sans-serif; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .form-group input, .form-group textarea, .form-group select {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.2);
+    color: var(--text); padding: 14px 18px;
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+    outline: none; transition: border-color 0.3s; width: 100%;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { height: 120px; resize: vertical; }
+  .form-group select option { background: var(--dark2); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark2);
+    border-top: 1px solid rgba(201,168,76,0.2);
+    padding: 60px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 50px;
+  }
+  .footer-brand .logo { font-size: 2.5rem; display: block; margin-bottom: 16px; text-decoration: none; }
+  .footer-tagline { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--muted); line-height: 1.7; }
+  .footer-social { display: flex; gap: 12px; margin-top: 24px; }
+  .social-link {
+    width: 38px; height: 38px; border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 0.9rem; text-decoration: none;
+    transition: all 0.3s; font-weight: 700;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+  .footer-col h4 { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 20px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-links a {
+    font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--muted);
+    text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 30px; border-top: 1px solid rgba(201,168,76,0.1);
+    font-size: 0.65rem; letter-spacing: 2px; color: var(--muted);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom span { text-transform: uppercase; }
+  .footer-bottom .gold { color: var(--gold); }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+    background: var(--gold); color: var(--black);
+    padding: 14px 24px; font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+    transform: translateY(100px); opacity: 0; transition: all 0.4s;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ─── FADE IN ─── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: all 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    #about { grid-template-columns: 1fr; gap: 50px; }
+    .about-visual { height: 400px; }
+    .info-strip { grid-template-columns: 1fr 1fr; }
+    .info-box { border-bottom: 1px solid rgba(201,168,76,0.12); padding: 30px 20px; }
+    #contact { grid-template-columns: 1fr; gap: 50px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .ambiance-grid { grid-template-columns: 1fr; }
+    .amb-card:first-child, .amb-card:nth-child(4) { grid-column: span 1; }
+    .form-row { grid-template-columns: 1fr; }
+    .menu-tabs { border: none; flex-direction: row; gap: 8px; }
+    .menu-tab { border: 1px solid rgba(201,168,76,0.2) !important; }
+  }
+  @media (max-width: 600px) {
+    .hero-title { font-size: 4.5rem; }
+    .info-strip { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    #menu { padding: 70px 20px; }
+    .menu-items { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="logo">Studio <span>XO</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#offers">Offers</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Reserve a Table</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Kanpur's Premier Nightlife Destination</div>
+    <h1 class="hero-title">STUDIO <span class="xo">XO</span><br>BAR</h1>
+    <p class="hero-sub">Where Sophistication Meets the Night</p>
+    <div class="hero-divider"></div>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#contact" class="btn-outline">Book a Table</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="fade-in">
+  <div class="about-visual">
+    <div class="about-frame">
+      <div class="about-bg-text">XO</div>
+      <div class="about-stats">
+        <div class="stat-box">
+          <span class="stat-num">50K+</span>
+          <span class="stat-label">Instagram Followers</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">8+</span>
+          <span class="stat-label">Cities</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">4★</span>
+          <span class="stat-label">Google Rating</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">1AM</span>
+          <span class="stat-label">Open Till</span>
+        </div>
+      </div>
+    </div>
+    <div class="about-corner tl"></div>
+    <div class="about-corner tr"></div>
+    <div class="about-corner bl"></div>
+    <div class="about-corner br"></div>
+  </div>
+  <div>
+    <div class="section-label">Our Story</div>
+    <h2 class="section-title">More Than Just<br>a <em>Bar</em></h2>
+    <div class="gold-line"></div>
+    <p class="section-body">Born in Gurgaon and now thriving across India, Studio XO Bar brings world-class nightlife to Kanpur. Founded by the visionary Mr. Tushar Gulati, every Studio XO is a masterpiece of design, flavor, and entertainment — crafted to leave a lasting impression.</p>
+    <div class="about-features">
+      <div class="feature">
+        <div class="feature-icon">🍹</div>
+        <div>
+          <div class="feature-title">Expert Mixologists</div>
+          <div class="feature-desc">Signature cocktails crafted to perfection, each a story in a glass.</div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎵</div>
+        <div>
+          <div class="feature-title">Live Entertainment</div>
+          <div class="feature-desc">From Sufi nights to techno sessions — a new experience every visit.</div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <div>
+          <div class="feature-title">Global Cuisine</div>
+          <div class="feature-desc">An eclectic menu blending Indian classics with international flavors.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header fade-in">
+    <div class="section-label">Curated For You</div>
+    <h2 class="section-title">Our <em>Menu</em></h2>
+    <div class="gold-line"></div>
+    <p class="section-body" style="margin:0 auto; text-align:center;">From crafted cocktails to global bites — every plate and pour is designed to delight.</p>
+  </div>
+
+  <div class="menu-tabs fade-in">
+    <button class="menu-tab active" onclick="switchTab('cocktails', this)">🍸 Cocktails</button>
+    <button class="menu-tab" onclick="switchTab('mocktails', this)">🥤 Mocktails</button>
+    <button class="menu-tab" onclick="switchTab('spirits', this)">🥃 Spirits</button>
+    <button class="menu-tab" onclick="switchTab('starters', this)">🍢 Starters</button>
+    <button class="menu-tab" onclick="switchTab('mains', this)">🍛 Mains</button>
+    <button class="menu-tab" onclick="switchTab('desserts', this)">🍮 Desserts</button>
+  </div>
+
+  <!-- COCKTAILS -->
+  <div class="menu-panel active" id="tab-cocktails">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">✨</span> Signature Cocktails</div>
+      <div class="menu-cat-desc">Our mixologists' finest creations — each drink tells a story</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">The XO Rush</div><div class="item-desc">Vodka, Rose Wine, Peach Schnapps, Strawberry, Lime Foam</div><div class="item-tags"><span class="tag tag-recommended">⭐ Recommended</span><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>550</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">The Temptation</div><div class="item-desc">Gin, Elderflower, Cucumber, Tonic, Fresh Mint, Zest</div><div class="item-tags"><span class="tag tag-recommended">⭐ Recommended</span></div></div><div class="item-price"><span class="currency">₹</span>520</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Golden Haze</div><div class="item-desc">Bourbon, Honey, Ginger Beer, Lemon, Smoked Salt Rim</div><div class="item-tags"><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>580</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Midnight Velvet</div><div class="item-desc">Dark Rum, Blackberry Purée, Coconut Cream, Nutmeg</div></div><div class="item-price"><span class="currency">₹</span>490</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Cosmopolitan XO</div><div class="item-desc">Vodka Citron, Triple Sec, Cranberry, Fresh Lime, Rose Petal</div><div class="item-tags"><span class="tag tag-recommended">⭐ Recommended</span></div></div><div class="item-price"><span class="currency">₹</span>500</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Whiskey Sour Studio</div><div class="item-desc">Blended Whiskey, Fresh Lemon, Sugar Syrup, Egg White Foam</div></div><div class="item-price"><span class="currency">₹</span>530</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">LIIT Special</div><div class="item-desc">Vodka, Rum, Tequila, Gin, Triple Sec, Coke, Lime — the classic tippler</div><div class="item-tags"><span class="tag tag-recommended">⭐ Fan Favourite</span></div></div><div class="item-price"><span class="currency">₹</span>599</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Studio Sunrise</div><div class="item-desc">Tequila, Orange Juice, Grenadine, Chili Salt Rim</div></div><div class="item-price"><span class="currency">₹</span>460</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🌹</span> Classic Cocktails</div>
+      <div class="menu-cat-desc">Timeless recipes, elevated with Studio XO's signature touch</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Mojito</div><div class="item-desc">White Rum, Fresh Mint, Lime, Sugar, Soda Water</div></div><div class="item-price"><span class="currency">₹</span>380</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Margarita</div><div class="item-desc">Tequila, Lime Juice, Triple Sec, Salt Rim — Classic or Frozen</div></div><div class="item-price"><span class="currency">₹</span>400</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Piña Colada</div><div class="item-desc">White Rum, Coconut Cream, Pineapple Juice, Blended Smooth</div></div><div class="item-price"><span class="currency">₹</span>390</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Sangria Blanca</div><div class="item-desc">White Wine, Peach, Apple, Mint, Sparkling Water</div></div><div class="item-price"><span class="currency">₹</span>420</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOCKTAILS -->
+  <div class="menu-panel" id="tab-mocktails">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🌿</span> Refreshing Mocktails</div>
+      <div class="menu-cat-desc">Zero alcohol, full flavour — crafted with the same precision</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Melon Sparkler</div><div class="item-desc">Watermelon Juice, Mint, Lime, Soda, Basil Seeds</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-recommended">⭐ Bestseller</span></div></div><div class="item-price"><span class="currency">₹</span>220</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Blue Lagoon</div><div class="item-desc">Blue Curacao Syrup, Lemonade, Mint, Crushed Ice</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>200</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Virgin Mojito</div><div class="item-desc">Fresh Lime, Mint, Sugar Cane, Soda, Salt Twist</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>190</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Mango Tango</div><div class="item-desc">Alphonso Mango, Chili Salt, Lime, Ginger Beer, Chia Seeds</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-spicy">🌶 Spicy</span></div></div><div class="item-price"><span class="currency">₹</span>210</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Rose Lychee Fizz</div><div class="item-desc">Lychee Juice, Rose Syrup, Lemon, Tonic Water, Dried Rose</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>230</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Passion Fruit Cooler</div><div class="item-desc">Passion Fruit, Orange Juice, Ginger Ale, Mint, Honey</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>220</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Studio Sunrise (NA)</div><div class="item-desc">Orange, Grenadine, Lemon, Soda — Alcohol-free version</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>200</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Green Detox Cooler</div><div class="item-desc">Cucumber, Spinach, Apple, Lemon, Ginger, Black Salt</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>240</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPIRITS -->
+  <div class="menu-panel" id="tab-spirits">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🥃</span> Whisky & Bourbon</div>
+      <div class="menu-cat-desc">Premium pours, served neat, on rocks, or with your mixer of choice</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Jack Daniel's</div><div class="item-desc">Tennessee Whiskey — smooth, oaky, with vanilla notes</div></div><div class="item-price"><span class="currency">₹</span>480</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Johnnie Walker Black</div><div class="item-desc">Blended Scotch — smoky, complex, 12 Year Reserve</div></div><div class="item-price"><span class="currency">₹</span>560</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Chivas Regal 12</div><div class="item-desc">Blended Scotch Whisky — honey, apple, dried fruit finish</div></div><div class="item-price"><span class="currency">₹</span>540</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Glenlivet 12</div><div class="item-desc">Single Malt Speyside — fruity, smooth, delicate floral notes</div><div class="item-tags"><span class="tag tag-recommended">⭐ Top Pick</span></div></div><div class="item-price"><span class="currency">₹</span>650</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🍾</span> Vodka & Gin</div>
+      <div class="menu-cat-desc">Crystal clear or botanically infused — your pour, your story</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Absolut Vodka</div><div class="item-desc">Swedish Pure Vodka — crisp, clean, triple distilled</div></div><div class="item-price"><span class="currency">₹</span>380</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Grey Goose</div><div class="item-desc">Premium French Vodka — exceptionally smooth, refined finish</div><div class="item-tags"><span class="tag tag-recommended">⭐ Premium</span></div></div><div class="item-price"><span class="currency">₹</span>620</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Bombay Sapphire</div><div class="item-desc">London Dry Gin — 10 exotic botanicals, juniper forward</div></div><div class="item-price"><span class="currency">₹</span>440</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Hendrick's Gin</div><div class="item-desc">Scottish Gin — rose, cucumber & juniper, serve with tonic</div><div class="item-tags"><span class="tag tag-recommended">⭐ Signature</span></div></div><div class="item-price"><span class="currency">₹</span>560</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🌵</span> Rum & Tequila</div>
+      <div class="menu-cat-desc">Sun-kissed spirits for those who live boldly</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Bacardi White Rum</div><div class="item-desc">Light-bodied Cuban style — perfect for cocktails or sipping</div></div><div class="item-price"><span class="currency">₹</span>360</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Old Monk (30ml)</div><div class="item-desc">India's iconic dark rum — rich, caramel, vanilla legacy</div></div><div class="item-price"><span class="currency">₹</span>180</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Jose Cuervo Gold</div><div class="item-desc">Mixto Tequila — golden, smooth, ideal for margaritas</div></div><div class="item-price"><span class="currency">₹</span>400</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Don Julio Blanco</div><div class="item-desc">100% Blue Agave — crisp, clean, premium tequila shot</div><div class="item-tags"><span class="tag tag-recommended">⭐ Premium</span></div></div><div class="item-price"><span class="currency">₹</span>680</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STARTERS -->
+  <div class="menu-panel" id="tab-starters">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🔥</span> Non-Veg Starters</div>
+      <div class="menu-cat-desc">Bold flavors, perfectly charred, beautifully presented</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Chicken Tikka</div><div class="item-desc">Tandoor marinated boneless chicken, mint chutney, onion rings</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Must Try</span></div></div><div class="item-price"><span class="currency">₹</span>380</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Crispy Prawns</div><div class="item-desc">Tiger prawns, chili garlic glaze, sesame, wasabi mayo dip</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Chef's Pick</span></div></div><div class="item-price"><span class="currency">₹</span>480</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Lemon Fish</div><div class="item-desc">Basa fillets, lemon pepper crust, tartar sauce, coleslaw</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>420</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Amritsari Fish</div><div class="item-desc">Battered white fish, ajwain, coriander, green chutney</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Bestseller</span></div></div><div class="item-price"><span class="currency">₹</span>400</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Classic Chilli Chicken</div><div class="item-desc">Indo-Chinese tossed chicken, bell peppers, soy glaze, spring onions</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-spicy">🌶 Spicy</span></div></div><div class="item-price"><span class="currency">₹</span>360</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Grilled Chicken</div><div class="item-desc">Herb-marinated breast, garlic butter, lemon thyme jus</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>440</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Chicken Wings</div><div class="item-desc">BBQ or Buffalo — choice of 6 or 12, ranch dip</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>390</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Non-Veg Pizza</div><div class="item-desc">Thin crust, chicken pepperoni, jalapeño, mozzarella, oregano</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>460</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🌱</span> Veg Starters</div>
+      <div class="menu-cat-desc">Fresh, creative, and bursting with vegetarian goodness</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Lebanese Veg Platter</div><div class="item-desc">Falafel, hummus, pita, olives, baba ganoush, tzatziki</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-recommended">⭐ Chef's Pick</span></div></div><div class="item-price"><span class="currency">₹</span>450</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Crispy Chilli Baby Corn</div><div class="item-desc">Indo-Chinese style, tossed in soy chilli, scallion oil</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-spicy">🌶 Spicy</span></div></div><div class="item-price"><span class="currency">₹</span>280</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Paneer Tikka</div><div class="item-desc">Marinated cottage cheese, capsicum, onion, yogurt spice rub</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>320</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Mushroom Galouti</div><div class="item-desc">Slow-cooked spiced mushroom patties, ulte tawa paratha, chutney</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>310</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Loaded Nachos</div><div class="item-desc">Tortilla chips, cheese sauce, jalapeño, salsa, guac, sour cream</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>340</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Veg Spring Rolls</div><div class="item-desc">Crispy rolls, mixed vegetables, glass noodles, sweet chilli dip</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>250</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAINS -->
+  <div class="menu-panel" id="tab-mains">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🍛</span> Indian Mains</div>
+      <div class="menu-cat-desc">Rich gravies and aromatic rice — the heart of Indian flavour</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Butter Chicken</div><div class="item-desc">Slow-cooked in tomato cream, tender murgh, kasuri methi, naan</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Must Try</span></div></div><div class="item-price"><span class="currency">₹</span>420</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Murgh Makhani</div><div class="item-desc">Classic Mughal preparation, ghee-finish, garlic naan/rice</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Signature</span></div></div><div class="item-price"><span class="currency">₹</span>440</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Mutton Rogan Josh</div><div class="item-desc">Kashmiri spice blend, slow-braised lamb, saffron rice</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-spicy">🌶 Spicy</span></div></div><div class="item-price"><span class="currency">₹</span>520</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Chicken Biryani</div><div class="item-desc">Dum-style, basmati rice, whole spices, raita, salan</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-recommended">⭐ Fan Favourite</span></div></div><div class="item-price"><span class="currency">₹</span>450</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Dal Makhani</div><div class="item-desc">Black lentil, butter, cream, slow-simmered 10 hours, garlic naan</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-recommended">⭐ Bestseller</span></div></div><div class="item-price"><span class="currency">₹</span>320</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Paneer Lababdar</div><div class="item-desc">Paneer in rich onion-tomato, cream, cashew paste</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>360</div></div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🌍</span> Continental & Global</div>
+      <div class="menu-cat-desc">International flavors, crafted with local ingredients</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Grilled Chicken Platter</div><div class="item-desc">Half grilled chicken, roasted veggies, garlic butter, mashed potato</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>560</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Pasta Aglio e Olio</div><div class="item-desc">Spaghetti, EVOO, chili flakes, garlic, Parmesan, fresh parsley</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>360</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Chicken Pesto Pasta</div><div class="item-desc">Grilled chicken, basil pesto, cherry tomato, pine nuts, Parmesan</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span></div></div><div class="item-price"><span class="currency">₹</span>440</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">XO Burger</div><div class="item-desc">Double patty, cheddar, jalapeño aioli, caramelized onion, fries</div><div class="item-tags"><span class="tag tag-nonveg">● Non-Veg</span><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>480</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESSERTS -->
+  <div class="menu-panel" id="tab-desserts">
+    <div class="menu-category">
+      <div class="menu-cat-title"><span class="cat-icon">🍮</span> Desserts</div>
+      <div class="menu-cat-desc">Sweet endings to a perfect night</div>
+      <div class="menu-items">
+        <div class="menu-item"><div class="item-info"><div class="item-name">Gulab Jamun Cheesecake</div><div class="item-desc">Fusion dessert — cream cheese base, gulab jamun centre, rabdi cream</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-new">New</span><span class="tag tag-recommended">⭐ Chef's Special</span></div></div><div class="item-price"><span class="currency">₹</span>280</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Dark Chocolate Lava Cake</div><div class="item-desc">Warm dark chocolate centre, vanilla bean ice cream, berry coulis</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-recommended">⭐ Bestseller</span></div></div><div class="item-price"><span class="currency">₹</span>260</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Tiramisu</div><div class="item-desc">Espresso-soaked ladyfingers, mascarpone, dark cocoa dusting</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>250</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Kulfi Faluda</div><div class="item-desc">Rose kulfi, vermicelli, basil seeds, tutti-frutti, sweet milk</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>200</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Mango Panna Cotta</div><div class="item-desc">Silky vanilla panna cotta, Alphonso mango gel, pistachio crumble</div><div class="item-tags"><span class="tag tag-veg">● Veg</span><span class="tag tag-new">New</span></div></div><div class="item-price"><span class="currency">₹</span>240</div></div>
+        <div class="menu-item"><div class="item-info"><div class="item-name">Ice Cream (3 Scoops)</div><div class="item-desc">Choice of: Vanilla Bean, Belgian Chocolate, Strawberry, Mango</div><div class="item-tags"><span class="tag tag-veg">● Veg</span></div></div><div class="item-price"><span class="currency">₹</span>180</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events" class="fade-in">
+  <div class="section-label">Every Night is Special</div>
+  <h2 class="section-title">Events &amp; <em>Entertainment</em></h2>
+  <div class="gold-line"></div>
+  <p class="section-body">No two nights are the same at Studio XO. Curated entertainment to match every mood, every occasion.</p>
+
+  <div class="events-grid">
+    <div class="event-card">
+      <span class="event-icon">🎵</span>
+      <div class="event-day">Every Friday</div>
+      <div class="event-name">Sufi Nights</div>
+      <div class="event-desc">Soul-stirring Sufi music with live instruments — lose yourself in the melody.</div>
+      <span class="event-badge">Live Music</span>
+    </div>
+    <div class="event-card">
+      <span class="event-icon">🎧</span>
+      <div class="event-day">Every Saturday</div>
+      <div class="event-name">Techno Night</div>
+      <div class="event-desc">Resident and guest DJs spinning electrifying techno and house sets till 1 AM.</div>
+      <span class="event-badge">DJ Night</span>
+    </div>
+    <div class="event-card">
+      <span class="event-icon">😂</span>
+      <div class="event-day">Bi-Monthly</div>
+      <div class="event-name">Stand-Up Comedy</div>
+      <div class="event-desc">Handpicked comedians from across India — laugh your night away with great cocktails.</div>
+      <span class="event-badge">Comedy</span>
+    </div>
+    <div class="event-card">
+      <span class="event-icon">🎉</span>
+      <div class="event-day">On Request</div>
+      <div class="event-name">Private Events</div>
+      <div class="event-desc">Birthdays, corporate nights, celebrations — our team crafts bespoke experiences.</div>
+      <span class="event-badge">Private Booking</span>
+    </div>
+    <div class="event-card">
+      <span class="event-icon">🌙</span>
+      <div class="event-day">Every Thursday</div>
+      <div class="event-name">Ladies Night</div>
+      <div class="event-desc">Complimentary cocktails for ladies till 10 PM. A night designed for the queens.</div>
+      <span class="event-badge">Special Evening</span>
+    </div>
+    <div class="event-card">
+      <span class="event-icon">🎸</span>
+      <div class="event-day">Monthly</div>
+      <div class="event-name">Live Band Night</div>
+      <div class="event-desc">Talented bands covering classics to contemporary — filling the room with energy.</div>
+      <span class="event-badge">Live Performance</span>
+    </div>
+  </div>
+</section>
+
+<!-- OFFERS -->
+<section id="offers" class="fade-in">
+  <div class="section-label">Exclusive Deals</div>
+  <h2 class="section-title">Current <em>Offers</em></h2>
+  <div class="gold-line"></div>
+  <p class="section-body">Book through our partners and save big on your Studio XO experience.</p>
+
+  <div class="offers-grid">
+    <div class="offer-card">
+      <span class="offer-percent">30%</span>
+      <div class="offer-title">Off on Weekdays</div>
+      <div class="offer-condition">On total food & beverage bill, Monday to Thursday</div>
+      <span class="offer-platform">via Swiggy Dineout</span>
+    </div>
+    <div class="offer-card">
+      <span class="offer-percent">25%</span>
+      <div class="offer-title">Off on Weekends</div>
+      <div class="offer-condition">Friday, Saturday & Sunday — pre-book your table</div>
+      <span class="offer-platform">via Swiggy Dineout</span>
+    </div>
+    <div class="offer-card">
+      <span class="offer-percent">20%</span>
+      <div class="offer-title">Flat Off</div>
+      <div class="offer-condition">Available on pre-booked slots — limited availability</div>
+      <span class="offer-platform">via Swiggy Dineout</span>
+    </div>
+    <div class="offer-card">
+      <span class="offer-percent">15%</span>
+      <div class="offer-title">EazyDiner Deal</div>
+      <div class="offer-condition">Use PayEazy at checkout to avail exclusive dining discount</div>
+      <span class="offer-platform">via EazyDiner</span>
+    </div>
+  </div>
+</section>
+
+<!-- AMBIANCE -->
+<section id="ambiance" class="fade-in">
+  <div class="section-label">The Experience</div>
+  <h2 class="section-title">Crafted <em>Atmosphere</em></h2>
+  <div class="gold-line"></div>
+
+  <div class="ambiance-grid">
+    <div class="amb-card">
+      <div class="amb-number">01</div>
+      <div class="amb-icon">✨</div>
+      <div class="amb-title">Instagram-Worthy Interiors</div>
+      <div class="amb-desc">Every corner of Studio XO is designed to be a visual masterpiece. From velvet couches to the glass cabinet of finest spirits — stunning at every angle. The perfect backdrop for your evening.</div>
+    </div>
+    <div class="amb-card">
+      <div class="amb-number">02</div>
+      <div class="amb-icon">🔮</div>
+      <div class="amb-title">Dim-Lit Luxury</div>
+      <div class="amb-desc">Carefully calibrated lighting that sets the mood — intimate enough for conversation, vibrant enough for celebration.</div>
+    </div>
+    <div class="amb-card">
+      <div class="amb-number">03</div>
+      <div class="amb-icon">🍾</div>
+      <div class="amb-title">Premium Bar Wall</div>
+      <div class="amb-desc">A stunning display of the finest spirits from around the world — a glass-fronted showcase that's as beautiful as the drinks inside it.</div>
+    </div>
+    <div class="amb-card">
+      <div class="amb-number">04</div>
+      <div class="amb-icon">🎵</div>
+      <div class="amb-title">State-of-the-Art Sound</div>
+      <div class="amb-desc">Premium audio systems, live stage, and a dance floor designed to move with you. Whether it's Sufi fusion or deep techno, you'll feel every beat. Music is the soul of Studio XO.</div>
+    </div>
+    <div class="amb-card">
+      <div class="amb-number">05</div>
+      <div class="amb-icon">🅿️</div>
+      <div class="amb-title">Valet Parking</div>
+      <div class="amb-desc">Arrive in style — our complimentary valet service ensures a seamless experience from the moment you pull up.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<div class="info-strip fade-in">
+  <div class="info-box">
+    <span class="info-icon">📍</span>
+    <div class="info-title">Location</div>
+    <div class="info-value">5th Floor, Virendra Smriti Complex<br>Civil Lines, Kanpur, UP</div>
+  </div>
+  <div class="info-box">
+    <span class="info-icon">🕐</span>
+    <div class="info-title">Hours</div>
+    <div class="info-value">Mon–Fri: 12:00 PM – 1:00 AM<br>Sat: 2:00 PM – 1:00 AM<br>Sun: 12:00 PM – 1:00 AM</div>
+  </div>
+  <div class="info-box">
+    <span class="info-icon">💰</span>
+    <div class="info-title">Average Cost</div>
+    <div class="info-value">₹1,500 for two<br>Taxes as applicable</div>
+  </div>
+  <div class="info-box">
+    <span class="info-icon">📞</span>
+    <div class="info-title">Contact</div>
+    <div class="info-value">+91 99999 XXXXX<br>@studioxoofficial</div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-label">Come Visit Us</div>
+    <h2 class="section-title">Reserve Your<br><em>Table</em></h2>
+    <div class="gold-line"></div>
+    <p class="section-body">Step into a world where sophistication and elegance coexist. Book your table and let Studio XO create an unforgettable memory.</p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon-box">📍</div>
+        <div class="contact-text"><strong>Address</strong>5th Floor, Virendra Smriti Complex, Civil Lines, Kanpur, Uttar Pradesh — 208001</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon-box">🕐</div>
+        <div class="contact-text"><strong>Open Hours</strong>Monday to Sunday: 12 PM – 1 AM (Saturday from 2 PM)</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon-box">📸</div>
+        <div class="contact-text"><strong>Follow Us</strong>@studioxoofficial on Instagram · 50K+ followers</div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form fade-in">
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--text); margin-bottom:28px;">Book a <em style="color:var(--gold)">Table</em></h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Enter your name" id="fname">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" placeholder="+91 98765 XXXXX" id="fphone">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="fdate">
+      </div>
+      <div class="form-group">
+        <label>Guests</label>
+        <select id="fguests">
+          <option value="">Select guests</option>
+          <option>2 Guests</option>
+          <option>3–4 Guests</option>
+          <option>5–6 Guests</option>
+          <option>7–10 Guests</option>
+          <option>Private Event (10+)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Occasion</label>
+      <select id="foccasion">
+        <option value="">Select occasion (optional)</option>
+        <option>Birthday Celebration</option>
+        <option>Anniversary Dinner</option>
+        <option>Corporate Event</option>
+        <option>Date Night</option>
+        <option>Friends Night Out</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Special Requests</label>
+      <textarea placeholder="Any special arrangements, dietary requirements, or notes..." id="fnotes"></textarea>
+    </div>
+    <button class="btn-primary" onclick="submitBooking()" style="width:100%;margin-top:8px;cursor:pointer;font-size:0.7rem;padding:18px;">Confirm Reservation</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#hero" class="logo">Studio <span>XO</span></a>
+      <p class="footer-tagline">Kanpur's most sophisticated nightlife destination. Where every evening becomes a memory, every cocktail a conversation, and every night unforgettable.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">IG</a>
+        <a href="#" class="social-link">FB</a>
+        <a href="#" class="social-link">YT</a>
+        <a href="#" class="social-link">X</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#menu">Our Menu</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#offers">Offers</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul class="footer-links">
+        <li><a href="#menu">Cocktails</a></li>
+        <li><a href="#menu">Mocktails</a></li>
+        <li><a href="#menu">Spirits</a></li>
+        <li><a href="#menu">Food</a></li>
+        <li><a href="#menu">Desserts</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Studio XO Cities</h4>
+      <ul class="footer-links">
+        <li><a href="#">Gurgaon</a></li>
+        <li><a href="#">Hyderabad</a></li>
+        <li><a href="#">Noida</a></li>
+        <li><a href="#">Kanpur</a></li>
+        <li><a href="#">Indore</a></li>
+        <li><a href="#">Dehradun</a></li>
+        <li><a href="#">Bhopal</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Studio XO Bar — All Rights Reserved</span>
+    <span>5th Floor, Virendra Smriti Complex, Civil Lines, <span class="gold">Kanpur</span></span>
+    <span>Crafted with <span class="gold">♥</span> for Kanpur</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Booking Request Sent!</div>
+
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50);
+  });
+
+  // Particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (6 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 3) + 'px';
+    container.appendChild(p);
+  }
+
+  // Marquee
+  const items = ['Signature Cocktails', 'Live Entertainment', 'Global Cuisine', 'Rooftop Vibes', 'Expert Mixologists', 'Luxury Ambiance', 'Open Till 1AM', 'Kanpur Nightlife'];
+  const track = document.getElementById('marqueeTrack');
+  const combined = [...items, ...items];
+  combined.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'marquee-item';
+    el.innerHTML = item + '<div class="marquee-dot"></div>';
+    track.appendChild(el);
+  });
+
+  // Menu tabs
+  function switchTab(id, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Fade in
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // Booking
+  function submitBooking() {
+    const name = document.getElementById('fname').value;
+    const phone = document.getElementById('fphone').value;
+    if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+    ['fname','fphone','fdate','fguests','foccasion','fnotes'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+  }
+</script>
+</body>
+</html>
